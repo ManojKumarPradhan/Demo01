@@ -2,13 +2,21 @@ package com.bigob.bean;
 
 import com.google.gson.Gson;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PatientBean {
 
+	@ApiModelProperty(value="ID of a patient",required=true)
 	private Integer pId;
+	@ApiModelProperty(value="First Name Of the Patient")
 	private String fName;
+	@ApiModelProperty(value="Last Name Of the Patient")
 	private String lName;
+	@ApiModelProperty(value="Mobile Number Of the Patient")
 	private String mobile;
+	@ApiModelProperty(value="Email ID Of the Patient")
 	private String email;
+	@ApiModelProperty(value="Joining Date Of the Patient")
 	private String createdDate;
 	
 	public Integer getpId() {
