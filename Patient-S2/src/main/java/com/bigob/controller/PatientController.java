@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -101,6 +102,7 @@ public class PatientController {
 		}
 		return responseEntity;
 	}
+	
 
 	private String getFrmatedStringDate(String sDate) {
 		return new SimpleDateFormat(sDate).format(new Date());

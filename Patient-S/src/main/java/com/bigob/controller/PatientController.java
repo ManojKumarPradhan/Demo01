@@ -66,7 +66,7 @@ public class PatientController {
 		return responseEntity;
 	}
 	
-	@ApiOperation(value="Register A Patient By ID")
+	@ApiOperation(value="Fetch A Patient By ID")
 	@GetMapping("/getPatientById")
 	public ResponseEntity<PatientBean> getPatientById(@PathParam("pId") Integer pId){
 		return  new ResponseEntity<PatientBean>(patientService.getPatientById(pId),HttpStatus.FOUND);

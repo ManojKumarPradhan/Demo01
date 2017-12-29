@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bigob.bean.DoctorBean;
+import com.bigob.bean.PatientBean;
+import com.bigob.feign.PatientProxy;
 import com.bigob.service.DoctorService;
 import com.bigob.util.PropertyUtil;
 import com.bigob.util.ServiceConst;
@@ -37,6 +40,9 @@ public class DoctorController {
 
 	@Autowired
 	PropertyUtil props;
+
+	@Autowired
+	PatientProxy proxy;
 
 	@ApiOperation("Get All Doctors")
 	@GetMapping("/getAllDatoct")
@@ -76,18 +82,25 @@ public class DoctorController {
 	@ApiOperation("Delete a Dactor By ID")
 	@DeleteMapping("/delete/{dId}")
 	public ResponseEntity<String> deleteDoctor(@PathVariable("dId") Integer dId) {
-		return new ResponseEntity<String>(doctorService.deleteDoctor(dId),HttpStatus.GONE);
+		return new ResponseEntity<String>(doctorService.deleteDoctor(dId), HttpStatus.GONE);
 	}
 
 	@GetMapping("/getDoctorByName/{name}")
-	public ResponseEntity<String> getDoctorByName(String name){
-		JsonObject jsonObject=new JsonObject();
+	public ResponseEntity<String> getDoctorByName(String name) {
+		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("DoctorDetails", doctorService.getDoctrsByName(name).toString());
 		jsonObject.addProperty("status", HttpStatus.FOUND.toString());
-		jsonObject.addProperty("Message", "All the Doctor By name "+name);
-		return new ResponseEntity<String>(jsonObject.toString(),HttpStatus.FOUND);
+		jsonObject.addProperty("Message", "All the Doctor By name " + name);
+		return new ResponseEntity<String>(jsonObject.toString(), HttpStatus.FOUND);
 	}
-	
+
+	@ApiOperation("Add Patient in Doctor Service")
+	@PostMapping(value = "addPatient", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> addPatientByDoctor(@RequestBody PatientBean patientBean) {
+		patientBean.setCreatedDate(props.getPropertyFromKey(ServiceConst.DATE_fORMAT));
+		return new ResponseEntity<String>(proxy.addPAtient(patientBean).getBody(), HttpStatus.CREATED);
+	}
+
 	private String getDate() {
 		return new SimpleDateFormat(props.getPropertyFromKey(ServiceConst.DATE_fORMAT)).format(new Date());
 	}
