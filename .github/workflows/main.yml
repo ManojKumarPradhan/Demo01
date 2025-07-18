@@ -1,4 +1,4 @@
-ame: Demo Workflow with Environments
+name: Demo Workflow with Environments
 
 on:
   workflow_dispatch:
