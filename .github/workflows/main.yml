@@ -1,14 +1,35 @@
-name: Controlled workflow
+ame: Demo Workflow with Environments
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
 
 jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Job 1 running"
+      - name: Immediate Step 1
+        run: echo "Job 1 running automatically."
 
   job2:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Job 2 running"
+      - name: Immediate Step 2
+        run: echo "Job 2 running automatically."
+
+  job3:
+    needs: [job1, job2]
+    runs-on: ubuntu-latest
+    environment:
+      name: new env
+    steps:
+      - name: Approved Step 3
+        run: echo "Job 3 running after manual approval."
+
+  job4:
+    needs: [job1, job2]
+    runs-on: ubuntu-latest
+    environment:
+      name: new env
+    steps:
+      - name: Approved Step 4
+        run: echo "Job 4 running after manual approval."
