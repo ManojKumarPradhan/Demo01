@@ -1,0 +1,14 @@
+name: Controlled workflow
+
+on: [workflow_dispatch]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Job 1 running"
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Job 2 running"
